@@ -1,0 +1,52 @@
+{% extends "shop/base.html" %}
+
+{% block title %}Checkout{% endblock %}
+
+{% block content %}
+<h1>Shipping</h1>
+<div class="shipping-info">
+  <h3>Your order</h3>
+  <ul>
+    {% for item in cart %}
+    <li>
+      {{ item.quantity }}x {{ item.product.name }}
+      <span>${{ item.total_price }}</span>
+    </li>
+    {% endfor %}
+    <p>Total: {{ cart.get_total_price }} $</p>
+  </ul>
+  <div>
+  <form action="." method="post" class="">
+
+    <p><label for="id_name">Name*:</label></p>
+    {{ form.name }}
+  </div>
+  <div>
+    <p><label for="id_adress">Address*:</label></p>
+    {{ form.address }}
+  </div>
+  <div>
+    <p><label for="id_phone">Phone: </label></p>
+    {{ form.phone }}
+  </div>
+  <div>
+    <p><label for="id_email">E-mail:</label></p>
+    {{ form.email }}
+  </div>
+  <p><label for="id_shipping_options">Shipping options*:</label> <select name="shipping_options" required id="id_shipping_options">
+    <option value="" selected>---------</option>
+    <option value="1">Free shipping + 0.0$</option>
+    <option value="2">Express shipping +9.99$ </option>
+    <option value="3">Courier shipping +19.99$ </option>
+    {% if cart.get_total_price > 300 %}
+    <option value="4">Free Express shipping + 0.0$</option>
+    {% endif %}
+  </select></p>
+<h3>* - Fields are required</h3>
+  {% csrf_token %}
+  <p><input type="submit" value="Pay"></p>
+
+</form>
+
+
+  {% endblock %}
